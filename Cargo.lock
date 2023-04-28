@@ -1586,6 +1586,7 @@ dependencies = [
  "console_log",
  "env_logger",
  "pollster",
+ "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
  "wgpu",

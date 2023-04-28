@@ -5,3 +5,4 @@ cargo run
 # Web
 
 RUSTFLAGS=--cfg=web_sys_unstable_apis wasm-pack build --target web
+cd pkg && cd site && http-server -c-1

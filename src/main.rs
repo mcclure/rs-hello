@@ -5,6 +5,9 @@ use winit::{
     window::Window,
 };
 
+#[cfg(target_arch="wasm32")]
+use wasm_bindgen::prelude::*;
+
 async fn run(event_loop: EventLoop<()>, window: Window) {
     let size = window.inner_size();
 
@@ -139,6 +142,7 @@ async fn run(event_loop: EventLoop<()>, window: Window) {
     });
 }
 
+#[cfg_attr(target_arch="wasm32", wasm_bindgen(start))]
 fn main() {
     let event_loop = EventLoop::new();
     let window = winit::window::Window::new(&event_loop).unwrap();
