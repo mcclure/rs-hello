@@ -27,5 +27,4 @@ strip = true        # Strip symbols from binary*
 
 [lib]
 crate-type = ["cdylib", "rlib"]
-path="src/main.rs"
-
+path = "src/main.rs"
