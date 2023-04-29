@@ -7,13 +7,36 @@ use winit::{
 
 #[cfg(target_arch="wasm32")]
 use wasm_bindgen::prelude::*;
+#[cfg(target_arch="wasm32")]
+use winit::platform::web::WindowExtWebSys;
 
 async fn run(event_loop: EventLoop<()>, window: Window) {
     let size = window.inner_size();
 
     let instance = wgpu::Instance::default();
 
-    let surface = unsafe { instance.create_surface(&window) }.unwrap();
+    let surface = unsafe { instance.create_surface(&window) };
+
+    // If window create failed on web, assume webgpu versioning is the cause.
+    #[cfg(target_arch="wasm32")]
+    if surface.is_err() {
+        web_sys::window()
+            .and_then(|win| win.document())
+            .and_then(|doc| Some(
+                doc.body()
+                    .and_then(|body| {
+                        body.replace_child(
+                            &doc.create_text_node("This app requires WebGPU. Either your browser does not support WebGPU, or you must enable an experimental flag to access it."),
+                            &web_sys::Element::from(window.canvas()))
+                            .ok()
+                    })
+                    .expect("couldn't append canvas to document body")
+            ));
+        return
+    }
+
+    let surface = surface.unwrap();
+
     let adapter = instance
         .request_adapter(&wgpu::RequestAdapterOptions {
             power_preference: wgpu::PowerPreference::default(),
@@ -155,7 +178,6 @@ fn main() {
     {
         std::panic::set_hook(Box::new(console_error_panic_hook::hook));
         console_log::init().expect("could not initialize logger");
-        use winit::platform::web::WindowExtWebSys;
         // On wasm, append the canvas to the document body
         web_sys::window()
             .and_then(|win| win.document())
