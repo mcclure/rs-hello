@@ -25,8 +25,11 @@ async fn run(event_loop: EventLoop<()>, window: Window) {
             .and_then(|doc| Some(
                 doc.body()
                     .and_then(|body| {
+                        let div = doc.create_element("p").unwrap();
+                        div.set_class_name("alert");
+                        div.append_child(&doc.create_text_node("This app requires WebGPU. Either your browser does not support WebGPU, or you must enable an experimental flag to access it.")).unwrap();
                         body.replace_child(
-                            &doc.create_text_node("This app requires WebGPU. Either your browser does not support WebGPU, or you must enable an experimental flag to access it."),
+                            &div,
                             &web_sys::Element::from(window.canvas()))
                             .ok()
                     })

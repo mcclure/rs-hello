@@ -1,0 +1,3 @@
+Since this code consists entirely of the wgpu project (https://github.com/gfx-rs/wgpu/tree/trunk/wgpu/) "hello-triangle" example, it is probably covered by that project's license (MIT or Apache). It may be that either wgpu did not intend for their license to apply to the examples, or that the example code is so trivial it is not really copyrightable.
+
+In any case, I (Andi McClure) release any changes or additions I have made to this project into the public domain or, at your option, the Creative Commons Zero license: https://creativecommons.org/publicdomain/zero/1.0/legalcode
